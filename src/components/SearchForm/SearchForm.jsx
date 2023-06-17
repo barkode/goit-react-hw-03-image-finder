@@ -10,8 +10,8 @@ export const SearchForm = () => {
       <input
         className={css['SearchForm-input']}
         type="text"
-        autocomplete="off"
-        autofocus
+        autoComplete="off"
+        autoFocus
         placeholder="Search images and photos"
       />
     </form>
