@@ -29,9 +29,7 @@ export class App extends Component {
         <Searchbar>
           <SearchForm onRequest={this.handleFormSubmit} />
         </Searchbar>
-        <ImageGallery>
-          <ImageGalleryItem searchText={this.state.searchText} />
-        </ImageGallery>
+        <ImageGallery searchText={this.state.searchText} />
         {searchText && <Button>Load more</Button>}
         {showModal && <Modal onClose={this.toogleModal} />}
         <ToastContainer
