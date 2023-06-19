@@ -5,6 +5,7 @@ import css from './ImageGalleryItem.module.css';
 export class ImageGalleryItem extends Component {
   state = {
     images: null,
+    isLoading: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -16,12 +17,11 @@ export class ImageGalleryItem extends Component {
           }
           return res.json();
         })
-        .then(images => this.setState({ images: images.hits }));
+        .then(({ hits }) => this.setState({ images: hits }));
     }
   }
   render() {
     const { images } = this.state;
-    console.log(this.state.images);
     return (
       images &&
       images.map(({ id, tags, webformatURL }) => {

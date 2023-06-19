@@ -23,7 +23,7 @@ export class App extends Component {
   };
 
   render() {
-    const { showModal } = this.state;
+    const { searchText, showModal } = this.state;
     return (
       <div className={css.App}>
         <Searchbar>
@@ -32,7 +32,7 @@ export class App extends Component {
         <ImageGallery>
           <ImageGalleryItem searchText={this.state.searchText} />
         </ImageGallery>
-        <Button>Load more</Button>
+        {searchText && <Button>Load more</Button>}
         {showModal && <Modal onClose={this.toogleModal} />}
         <ToastContainer
           position="top-center"

@@ -4,7 +4,7 @@ import css from './ImageGallery.module.css';
 export class ImageGallery extends Component {
   state = {
     showModal: false,
-    loading: false,
+    isLoading: false,
   };
   render() {
     const { children } = this.props;
