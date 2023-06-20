@@ -4,9 +4,14 @@ import { Gallery } from './ImageGallery.styled';
 export const ImageGallery = ({ galleryItems }) => {
   return (
     <Gallery>
-      {galleryItems.map(galleryItem => {
+      {galleryItems.map(({ id, largeImageURL, tags, webformatURL }) => {
         return (
-          <ImageGalleryItem key={galleryItem.id} galleryItem={galleryItem} />
+          <ImageGalleryItem
+            key={id}
+            largeImageURL={largeImageURL}
+            tags={tags}
+            webformatURL={webformatURL}
+          />
         );
       })}
     </Gallery>

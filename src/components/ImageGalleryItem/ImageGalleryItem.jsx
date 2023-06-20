@@ -2,7 +2,6 @@ import { Component } from 'react';
 import { GalleryItem, GalleryImg } from './ImageGalleryItem.styled';
 import { Modal } from 'components/Modal/Modal';
 
-
 export class ImageGalleryItem extends Component {
   state = {
     isModalOpen: false,
@@ -13,9 +12,7 @@ export class ImageGalleryItem extends Component {
   };
 
   render() {
-    const {
-      galleryItem: { webformatURL, largeImageURL, tags },
-    } = this.props;
+    const { webformatURL, largeImageURL, tags } = this.props;
 
     return (
       <>
