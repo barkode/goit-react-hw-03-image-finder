@@ -10,6 +10,7 @@ import css from './ImageGallery.module.css';
 export class ImageGallery extends Component {
   state = {
     images: null,
+    totalHits: null,
     showModal: false,
     isLoading: false,
     modalImage: null,
@@ -22,6 +23,7 @@ export class ImageGallery extends Component {
       prevState.page !== this.state.page
     ) {
       this.setState({ isLoading: true });
+
       getImages(this.props.searchText, this.state.page)
         .then(res => {
           if (!res.ok) {
@@ -29,13 +31,13 @@ export class ImageGallery extends Component {
           }
           return res.json();
         })
-        .then(({ hits }) =>
+        .then(({ hits, totalHits }) => {
           this.setState(prev =>
             prev.images
-              ? { images: [...prev.images, ...hits] }
-              : { images: [...hits] }
-          )
-        )
+              ? { images: [...prev.images, ...hits], totalHits }
+              : { images: [...hits], totalHits }
+          );
+        })
         .catch(error =>
           toast.error(`🦄 Sory we have an ${error}. Try again.`, {
             position: 'top-center',
@@ -71,6 +73,7 @@ export class ImageGallery extends Component {
 
   render() {
     const { images, isLoading, showModal, modalImage } = this.state;
+    const searchText = this.props.searchText;
     return (
       <>
         {showModal && (
@@ -92,11 +95,17 @@ export class ImageGallery extends Component {
               />
             ))}
         </ul>
-        <PropagateLoader color="#36d7b7" size={25} loading={isLoading} />
-        {!isLoading && (
+
+        {!isLoading ? (
           <Button onClick={this.handleLoadMore}>
-            Load more {this.props.searchText}
+            {isLoading ? (
+              <PropagateLoader color="#36d7b7" size={25} />
+            ) : (
+              `Load more...${searchText}'s`
+            )}
           </Button>
+        ) : (
+          ''
         )}
       </>
     );
