@@ -17,7 +17,7 @@ export class SearchForm extends Component {
     const searchQuery = this.state.searchQuery.trim();
 
     if (searchQuery.trim() === '') {
-      toast.warning('🦄 Please, enter search word!');
+      toast.error('🦄 Please, enter search request!');
       return;
     }
 
