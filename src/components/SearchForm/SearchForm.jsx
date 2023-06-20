@@ -1,53 +1,49 @@
 import { Component } from 'react';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import css from './SearchForm.module.css';
+
+import { Form, Button, ButtonLabel, Input } from './SearchForm.styled';
 
 export class SearchForm extends Component {
   state = {
-    searchText: '',
+    searchQuery: ``,
   };
 
-  handleRequestChange = e => {
-    this.setState({ searchText: e.target.value.toLowerCase() });
+  handleQueryChange = ({ currentTarget: { value } }) => {
+    this.setState({ searchQuery: value.toLowerCase() });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    if (this.state.searchText.trim() === '') {
-      toast.error('🦄 You need to enter request!', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored',
-      });
+    const searchQuery = this.state.searchQuery.trim();
+
+    if (searchQuery.trim() === '') {
+      toast.warning('🦄 Please, enter search word!');
       return;
     }
-    this.props.onRequest(this.state.searchText);
-    this.setState({ searchText: '' });
+
+    this.props.onSubmit(searchQuery);
+    this.setState({ searchQuery: '' });
   };
 
   render() {
+    const { searchQuery } = this.state;
     return (
-      <form className={css.SearchForm} onSubmit={this.handleSubmit}>
-        <button type="submit" className={css['SearchForm-button']}>
-          <span className={css['SearchForm-button-label']}>Search</span>
-        </button>
+      <Form onSubmit={this.handleSubmit}>
+        <Button type="submit">
+          <ButtonLabel>Search</ButtonLabel>
+        </Button>
 
-        <input
-          className={css['SearchForm-input']}
+        <Input
+          className="input"
           type="text"
-          autoComplete="off"
+          autocomplete="off"
           autoFocus
           placeholder="Search images and photos"
-          onChange={this.handleRequestChange}
-          value={this.state.searchText}
+          name="searchQuery"
+          value={searchQuery}
+          onChange={this.handleQueryChange}
         />
-      </form>
+      </Form>
     );
   }
 }

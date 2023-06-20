@@ -1,4 +1,6 @@
-.SearchForm {
+import styled from 'styled-components';
+
+export const Form = styled.form`
   display: flex;
   align-items: center;
   width: 100%;
@@ -6,14 +8,14 @@
   background-color: #fff;
   border-radius: 3px;
   overflow: hidden;
-}
+`;
 
-.SearchForm-button {
+export const Button = styled.button`
   display: inline-block;
   width: 48px;
   height: 48px;
   border: 0;
-  background-image: url('https://www.svgrepo.com/show/509394/search.svg');
+  background-image: url(https://www.svgrepo.com/show/509394/search.svg);
   background-size: 40%;
   background-repeat: no-repeat;
   background-position: center;
@@ -21,13 +23,14 @@
   transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   outline: none;
-}
 
-.SearchForm-button:hover {
-  opacity: 1;
-}
+  &:hover,
+  &:focus {
+    opacity: 1;
+  }
+`;
 
-.SearchForm-button-label {
+export const ButtonLabel = styled.span`
   position: absolute;
   width: 1px;
   height: 1px;
@@ -37,9 +40,9 @@
   white-space: nowrap;
   clip-path: inset(50%);
   border: 0;
-}
+`;
 
-.SearchForm-input {
+export const Input = styled.input`
   display: inline-block;
   width: 100%;
   font: inherit;
@@ -48,9 +51,9 @@
   outline: none;
   padding-left: 4px;
   padding-right: 4px;
-}
 
-.SearchForm-input::placeholder {
-  font: inherit;
-  font-size: 18px;
-}
+  &:placeholder {
+    font: inherit;
+    font-size: 18px;
+  }
+`;

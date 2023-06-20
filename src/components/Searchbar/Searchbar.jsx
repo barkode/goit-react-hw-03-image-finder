@@ -1,5 +1,5 @@
-import css from './Searchbar.module.css';
+import { Header } from './Searchbar.styled';
 
 export const Searchbar = ({ children }) => {
-  return <header className={css.Searchbar}>{children}</header>;
+  return <Header>{children}</Header>;
 };
