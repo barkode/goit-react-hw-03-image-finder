@@ -1,6 +1,10 @@
 import { Component } from 'react';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
+import { Button } from 'components/Buton/Button';
+import { Modal } from 'components/Modal/Modal';
 import { getImages } from 'utils/fetch_api';
+import { toast } from 'react-toastify';
+import { PropagateLoader } from 'react-spinners';
 import css from './ImageGallery.module.css';
 
 export class ImageGallery extends Component {
@@ -8,36 +12,92 @@ export class ImageGallery extends Component {
     images: null,
     showModal: false,
     isLoading: false,
+    modalImage: null,
+    page: 1,
   };
+
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.searchText !== this.props.searchText) {
+    if (
+      prevProps.searchText !== this.props.searchText ||
+      prevState.page !== this.state.page
+    ) {
       this.setState({ isLoading: true });
-      getImages(this.props.searchText)
+      getImages(this.props.searchText, this.state.page)
         .then(res => {
           if (!res.ok) {
             throw new Error(res.status);
           }
           return res.json();
         })
-        .then(({ hits }) => this.setState({ images: hits, isLoading: false }));
+        .then(({ hits }) =>
+          this.setState(prev =>
+            prev.images
+              ? { images: [...prev.images, ...hits] }
+              : { images: [...hits] }
+          )
+        )
+        .catch(error =>
+          toast.error(`🦄 Sory we have an ${error}. Try again.`, {
+            position: 'top-center',
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+          })
+        )
+        .finally(() => this.setState({ isLoading: false }));
     }
   }
+
+  toogleModal = image => {
+    this.setState(({ showModal, modalImage }) => ({
+      showModal: !showModal,
+      modalImage: image,
+    }));
+  };
+
+  handleLoadMore = () => {
+    this.setState(prev => ({
+      page: prev.page + 1,
+    }));
+  };
+
+  imageInModal = (array, findImage) => {
+    return array.find(image => image.id === findImage);
+  };
+
   render() {
-    const { images, isLoading } = this.state;
+    const { images, isLoading, showModal, modalImage } = this.state;
     return (
       <>
-        {isLoading && <h1>LOADING ......</h1>}
+        {showModal && (
+          <Modal
+            onClose={this.toogleModal}
+            image={this.imageInModal(images, modalImage)}
+          />
+        )}
+
         <ul className={css.ImageGallery}>
           {images &&
-            images.map(({ id, tags, webformatURL }) => (
+            images.map(image => (
               <ImageGalleryItem
-                key={id}
-                tags={tags}
-                webformatURL={webformatURL}
+                image={image}
+                key={image.id}
+                tags={image.tags}
+                webformatURL={image.webformatURL}
+                handleOpenModal={this.toogleModal}
               />
             ))}
         </ul>
-        ;
+        <PropagateLoader color="#36d7b7" size={25} loading={isLoading} />
+        {!isLoading && (
+          <Button onClick={this.handleLoadMore}>
+            Load more {this.props.searchText}
+          </Button>
+        )}
       </>
     );
   }

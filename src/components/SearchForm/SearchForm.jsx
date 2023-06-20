@@ -5,16 +5,16 @@ import css from './SearchForm.module.css';
 
 export class SearchForm extends Component {
   state = {
-    value: '',
+    searchText: '',
   };
 
   handleRequestChange = e => {
-    this.setState({ value: e.target.value.toLowerCase() });
+    this.setState({ searchText: e.target.value.toLowerCase() });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    if (this.state.value.trim() === '') {
+    if (this.state.searchText.trim() === '') {
       toast.error('🦄 You need to enter request!', {
         position: 'top-center',
         autoClose: 3000,
@@ -27,9 +27,10 @@ export class SearchForm extends Component {
       });
       return;
     }
-    this.props.onRequest(this.state.value);
-    this.setState({ value: '' });
+    this.props.onRequest(this.state.searchText);
+    this.setState({ searchText: '' });
   };
+
   render() {
     return (
       <form className={css.SearchForm} onSubmit={this.handleSubmit}>
@@ -44,7 +45,7 @@ export class SearchForm extends Component {
           autoFocus
           placeholder="Search images and photos"
           onChange={this.handleRequestChange}
-          value={this.state.value}
+          value={this.state.searchText}
         />
       </form>
     );

@@ -1,8 +1,8 @@
 import css from './Buton.module.css';
 
-export const Button = ({ children }) => {
+export const Button = ({ children, onClick }) => {
   return (
-    <button type="submit" className={css.Button}>
+    <button type="button" onClick={onClick} className={css.Button}>
       {children}
     </button>
   );

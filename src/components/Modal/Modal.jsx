@@ -26,13 +26,12 @@ export class Modal extends Component {
   };
 
   render() {
+    console.log(this.props.image);
+    const { largeImageURL, tags } = this.props.image;
     return createPortal(
       <div className={css.Overlay} onClick={this.handleBackdropClick}>
         <div className={css.Modal}>
-          <img
-            src="https://images.freeimages.com/vhq/images/previews/f1e/skull-drawing-vector-16480.jpg"
-            alt=""
-          />
+          <img src={largeImageURL} alt={tags} />
         </div>
       </div>,
       modalRoot
