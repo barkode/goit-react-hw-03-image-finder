@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { Loader } from '../Loader/Loader';
 import { Button } from '../Button/Button';
 import { Searchbar } from '../Searchbar/Searchbar';
@@ -8,6 +7,7 @@ import { SearchForm } from 'components/SearchForm/SearchForm';
 import { ImageGallery } from '../ImageGallery/ImageGallery';
 import { Api } from '../Utils/Api';
 import { AppContainer } from './App.styled';
+import 'react-toastify/dist/ReactToastify.css';
 
 const apiService = new Api();
 
